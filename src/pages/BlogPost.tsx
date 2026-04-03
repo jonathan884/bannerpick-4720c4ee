@@ -7,6 +7,49 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
 
+const renderFormattedText = (text: string) => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="text-foreground font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+};
+
+const renderTable = (tableContent: string) => {
+  const lines = tableContent.trim().split("\n").filter(l => l.trim());
+  if (lines.length < 2) return null;
+  const headers = lines[0].split("|").map(h => h.trim());
+  const rows = lines.slice(1).map(l => l.split("|").map(c => c.trim()));
+
+  return (
+    <div className="overflow-x-auto my-6 rounded-xl border border-border">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="bg-secondary/50">
+            {headers.map((h, i) => (
+              <th key={i} className="px-4 py-3 text-left font-heading font-semibold text-foreground border-b border-border">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i} className="border-b border-border/50 last:border-0 hover:bg-secondary/20 transition-colors">
+              {row.map((cell, j) => (
+                <td key={j} className="px-4 py-3 text-muted-foreground">
+                  {cell === "✅" ? <span className="text-green-500">✅</span> :
+                   cell === "❌" ? <span className="text-red-500">❌</span> : cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
 const BlogPost = () => {
   const { id } = useParams();
   const post = blogPosts.find((p) => p.id === id);
@@ -61,80 +104,166 @@ const BlogPost = () => {
 
   const relatedPosts = blogPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
+  const renderContent = () => {
+    // Handle [TABLE]...[/TABLE] blocks
+    const tableRegex = /\[TABLE\]([\s\S]*?)\[\/TABLE\]/g;
+    const parts: { type: "text" | "table"; content: string }[] = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = tableRegex.exec(post.content)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push({ type: "text", content: post.content.slice(lastIndex, match.index) });
+      }
+      parts.push({ type: "table", content: match[1] });
+      lastIndex = match.index + match[0].length;
+    }
+    if (lastIndex < post.content.length) {
+      parts.push({ type: "text", content: post.content.slice(lastIndex) });
+    }
+
+    return parts.map((part, partIdx) => {
+      if (part.type === "table") {
+        return <div key={partIdx}>{renderTable(part.content)}</div>;
+      }
+
+      return part.content.split("\n\n").map((block, i) => {
+        const key = `${partIdx}-${i}`;
+        if (block.startsWith("## ")) {
+          return <h2 key={key} className="text-2xl font-heading font-bold mt-8 mb-3 text-foreground">{block.replace("## ", "")}</h2>;
+        }
+
+        // Check if block contains arrow bullet points
+        if (block.includes("→ ")) {
+          const lines = block.split("\n");
+          return (
+            <div key={key} className="mb-4">
+              {lines.map((line, j) => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith("→ ")) {
+                  return (
+                    <div key={j} className="flex items-start gap-2 py-1 text-muted-foreground">
+                      <span className="text-primary mt-0.5">→</span>
+                      <span>{renderFormattedText(trimmed.slice(2))}</span>
+                    </div>
+                  );
+                }
+                if (trimmed) {
+                  return <p key={j} className="text-muted-foreground leading-relaxed mb-1">{renderFormattedText(trimmed)}</p>;
+                }
+                return null;
+              })}
+            </div>
+          );
+        }
+
+        // Check for ✅ / ❌ lines
+        if (block.includes("✅") || block.includes("❌")) {
+          const lines = block.split("\n");
+          return (
+            <div key={key} className="mb-4">
+              {lines.map((line, j) => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith("✅") || trimmed.startsWith("❌")) {
+                  return (
+                    <div key={j} className="flex items-start gap-2 py-1 text-muted-foreground">
+                      <span>{trimmed.startsWith("✅") ? "✅" : "❌"}</span>
+                      <span>{renderFormattedText(trimmed.slice(2))}</span>
+                    </div>
+                  );
+                }
+                if (trimmed) {
+                  return <p key={j} className="text-muted-foreground leading-relaxed mb-1">{renderFormattedText(trimmed)}</p>;
+                }
+                return null;
+              })}
+            </div>
+          );
+        }
+
+        // Check for dash bullet points
+        if (block.startsWith("- ") || block.includes("\n- ")) {
+          const lines = block.split("\n");
+          return (
+            <div key={key} className="mb-4">
+              {lines.map((line, j) => {
+                const trimmed = line.trim();
+                if (trimmed.startsWith("- ")) {
+                  return (
+                    <div key={j} className="flex items-start gap-2 py-1 text-muted-foreground">
+                      <span className="text-primary mt-0.5">→</span>
+                      <span>{renderFormattedText(trimmed.slice(2))}</span>
+                    </div>
+                  );
+                }
+                if (trimmed) {
+                  return <p key={j} className="text-muted-foreground leading-relaxed mb-1">{renderFormattedText(trimmed)}</p>;
+                }
+                return null;
+              })}
+            </div>
+          );
+        }
+
+        return <p key={key} className="text-muted-foreground leading-relaxed mb-4">{renderFormattedText(block)}</p>;
+      });
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
       {/* Reading progress bar */}
-      <motion.div
-        className="fixed top-16 left-0 right-0 h-0.5 bg-primary/20 z-40"
-        style={{ transformOrigin: "left" }}
-      >
+      <div className="fixed top-16 left-0 right-0 h-0.5 bg-primary/20 z-40">
         <motion.div
           className="h-full bg-gradient-primary"
           style={{ width: `${readProgress}%` }}
         />
-      </motion.div>
+      </div>
 
-      {/* Hero */}
-      <div className="relative h-[60vh] min-h-[400px]">
-        <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-0 left-0 right-0 p-6 md:p-12 max-w-4xl mx-auto"
-        >
-          <div className="flex items-center gap-2 mb-3">
+      {/* Hero - Clean text-focused header */}
+      <div className="pt-24 pb-8 px-4">
+        <div className="max-w-4xl mx-auto">
+          <Link to="/blog">
+            <motion.div whileHover={{ x: -5 }} className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-6">
+              <ArrowLeft className="w-4 h-4" />
+              <span className="text-sm">Back to Blog</span>
+            </motion.div>
+          </Link>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs font-semibold text-primary uppercase tracking-wider">
               {post.category}
             </span>
-          </div>
-          <h1 className="text-3xl md:text-5xl font-heading font-bold mt-2 mb-4">{post.title}</h1>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                <User className="w-4 h-4 text-primary" />
-              </div>
-              {post.author}
-            </span>
-            <span className="flex items-center gap-1"><Calendar className="w-4 h-4" />{post.date}</span>
-            <span className="flex items-center gap-1"><Clock className="w-4 h-4" />{post.readTime}</span>
-          </div>
-        </motion.div>
-
-        <Link to="/blog" className="absolute top-24 left-6">
-          <motion.div whileHover={{ x: -5 }} className="flex items-center gap-2 text-foreground hover:text-primary transition-colors glass px-4 py-2 rounded-full">
-            <ArrowLeft className="w-4 h-4" />
-            <span className="text-sm">Back</span>
+            <h1 className="text-3xl md:text-5xl font-heading font-bold mt-4 mb-4">{post.title}</h1>
+            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-8">
+              <span className="flex items-center gap-1.5">
+                <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+                  <User className="w-4 h-4 text-primary" />
+                </div>
+                {post.author}
+              </span>
+              <span className="flex items-center gap-1"><Calendar className="w-4 h-4" />{post.date}</span>
+              <span className="flex items-center gap-1"><Clock className="w-4 h-4" />{post.readTime}</span>
+            </div>
           </motion.div>
-        </Link>
+
+          <div className="rounded-2xl overflow-hidden border border-border mb-8">
+            <img src={post.image} alt={post.title} className="w-full h-[300px] md:h-[400px] object-cover" />
+          </div>
+        </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-12 grid md:grid-cols-[1fr_auto] gap-10">
+      <div className="max-w-4xl mx-auto px-4 pb-12 grid md:grid-cols-[1fr_auto] gap-10">
         <motion.article
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="prose prose-invert max-w-none"
+          className="max-w-none"
         >
-          {post.content.split("\n\n").map((block, i) => {
-            if (block.startsWith("## ")) {
-              return <h2 key={i} className="text-2xl font-heading font-bold mt-8 mb-3 text-foreground">{block.replace("## ", "")}</h2>;
-            }
-            if (block.startsWith("- ")) {
-              const items = block.split("\n").filter(l => l.startsWith("- "));
-              return (
-                <ul key={i} className="list-disc list-inside space-y-1 text-muted-foreground mb-4">
-                  {items.map((item, j) => (
-                    <li key={j}>{item.replace("- ", "")}</li>
-                  ))}
-                </ul>
-              );
-            }
-            return <p key={i} className="text-muted-foreground leading-relaxed mb-4">{block}</p>;
-          })}
+          {renderContent()}
         </motion.article>
 
         {/* Sidebar */}
@@ -142,7 +271,7 @@ const BlogPost = () => {
           <motion.button
             whileTap={{ scale: 1.3 }}
             onClick={handleLike}
-            className={`w-12 h-12 rounded-full border flex items-center justify-center flex-col transition-all ${liked ? "border-red-500 text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)]" : "border-border text-muted-foreground hover:text-primary hover:border-primary/50"}`}
+            className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all ${liked ? "border-red-500 text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.3)]" : "border-border text-muted-foreground hover:text-primary hover:border-primary/50"}`}
           >
             <Heart className={`w-5 h-5 ${liked ? "fill-current" : ""}`} />
           </motion.button>
