@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { LayoutTemplate, Mail, Phone, MapPin, Instagram, Twitter, Linkedin } from "lucide-react";
+import { LayoutTemplate, Mail, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -51,14 +51,10 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold mb-4">Contact</h4>
             <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="w-4 h-4 text-primary" /> hello@bannerpick.com
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="w-4 h-4 text-primary" /> +1 (555) 123-4567
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <MapPin className="w-4 h-4 text-primary" /> New York, NY
+              <li>
+                <a href="mailto:info@bannerpick.com" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors">
+                  <Mail className="w-4 h-4 text-primary" /> info@bannerpick.com
+                </a>
               </li>
             </ul>
           </div>
@@ -67,16 +63,15 @@ const Footer = () => {
           <div>
             <h4 className="font-heading font-semibold mb-4">Follow Us</h4>
             <div className="flex gap-3">
-              {[Instagram, Twitter, Linkedin].map((Icon, i) => (
-                <motion.a
-                  key={i}
-                  href="#"
-                  whileHover={{ scale: 1.2, y: -3 }}
-                  className="w-10 h-10 rounded-lg bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Icon className="w-5 h-5" />
-                </motion.a>
-              ))}
+              <motion.a
+                href="https://www.linkedin.com/company/110921855/admin/dashboard/"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.2, y: -3 }}
+                className="w-10 h-10 rounded-lg bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
+              </motion.a>
             </div>
           </div>
         </div>

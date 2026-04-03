@@ -8,14 +8,17 @@ interface ContactModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const projectTypes = ["Social Media Banner", "Website Banner", "Billboard", "Email Header", "YouTube Thumbnail", "Other"];
+const projectTypes = ["Social Media Banner", "Website Banner", "Billboard", "Email Header", "YouTube Thumbnail", "HTML5 Banner", "Animated GIF Banner", "Other"];
 
 const ContactModal = ({ open, onOpenChange }: ContactModalProps) => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", projectType: "", requirements: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Thank you! We'll get back to you soon.");
+    const subject = `New Project Inquiry: ${form.projectType}`;
+    const body = `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nProject Type: ${form.projectType}\n\nRequirements:\n${form.requirements}`;
+    window.open(`mailto:info@bannerpick.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+    toast.success("Opening your email client...");
     setForm({ name: "", email: "", phone: "", projectType: "", requirements: "" });
     onOpenChange(false);
   };
@@ -27,7 +30,8 @@ const ContactModal = ({ open, onOpenChange }: ContactModalProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm overflow-y-auto"
+          style={{ position: 'fixed' }}
           onClick={() => onOpenChange(false)}
         >
           <motion.div
@@ -35,7 +39,7 @@ const ContactModal = ({ open, onOpenChange }: ContactModalProps) => {
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg rounded-2xl bg-card border border-border p-6 shadow-card"
+            className="w-full max-w-lg rounded-2xl bg-card border border-border p-6 shadow-card my-auto"
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-heading font-bold text-gradient-primary">Get In Touch</h2>
