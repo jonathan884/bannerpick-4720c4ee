@@ -14,7 +14,7 @@ const Index = () => {
       <Hero />
       <TrustedBy />
       <FeaturedSection />
-      <BannerGallery />
+      <BannerServices />
       <AboutSection />
       <Footer />
       <ScrollToTop />

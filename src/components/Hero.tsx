@@ -9,7 +9,7 @@ const Hero = () => {
 
   return (
     <>
-      <section id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
+      <section id="home" className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 md:pt-36">
         <ParticleBackground />
         
         {/* Subtle gradient background */}
