@@ -33,18 +33,18 @@ const ParticleBackground = () => {
     };
     canvas.addEventListener("mousemove", handleMouseMove);
 
-    const count = 60;
+    const count = 45;
     const w = canvas.offsetWidth;
     const h = canvas.offsetHeight;
 
     for (let i = 0; i < count; i++) {
-      const baseOpacity = Math.random() * 0.4 + 0.1;
+      const baseOpacity = Math.random() * 0.25 + 0.05;
       particles.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1 + 0.2,
         opacity: baseOpacity,
         baseOpacity,
         pulse: Math.random() * Math.PI * 2,
@@ -61,11 +61,11 @@ const ParticleBackground = () => {
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          const force = (120 - dist) / 120;
-          p.vx += dx / dist * force * 0.015;
-          p.vy += dy / dist * force * 0.015;
-          p.opacity = Math.min(0.8, p.baseOpacity + force * 0.4);
+        if (dist < 100) {
+          const force = (100 - dist) / 100;
+          p.vx += dx / dist * force * 0.008;
+          p.vy += dy / dist * force * 0.008;
+          p.opacity = Math.min(0.5, p.baseOpacity + force * 0.2);
         } else {
           p.opacity += (p.baseOpacity - p.opacity) * 0.05;
         }
@@ -82,7 +82,7 @@ const ParticleBackground = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, pulseSize, 0, Math.PI * 2);
-        ctx.fillStyle = `hsla(38, 92%, 55%, ${p.opacity})`;
+        ctx.fillStyle = `hsla(38, 92%, 55%, ${p.opacity * 0.7})`;
         ctx.fill();
       });
 
@@ -92,11 +92,11 @@ const ParticleBackground = () => {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
+          if (dist < 100) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `hsla(38, 92%, 55%, ${0.08 * (1 - dist / 120)})`;
+            ctx.strokeStyle = `hsla(38, 92%, 55%, ${0.04 * (1 - dist / 100)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

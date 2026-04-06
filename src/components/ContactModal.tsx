@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send } from "lucide-react";
+import { X, Send, Sparkles, User, Mail, Phone, FileText, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 
 interface ContactModalProps {
@@ -10,8 +10,35 @@ interface ContactModalProps {
 
 const projectTypes = ["Social Media Banner", "Website Banner", "Billboard", "Email Header", "YouTube Thumbnail", "HTML5 Banner", "Animated GIF Banner", "Other"];
 
+const backdropVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
+  exit: { opacity: 0, transition: { duration: 0.2, delay: 0.1 } },
+};
+
+const modalVariants = {
+  hidden: { opacity: 0, scale: 0.8, y: 40 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring" as const, damping: 25, stiffness: 300, delay: 0.1 },
+  },
+  exit: { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } },
+};
+
+const fieldVariants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { delay: 0.2 + i * 0.08, duration: 0.4, ease: "easeOut" as const },
+  }),
+};
+
 const ContactModal = ({ open, onOpenChange }: ContactModalProps) => {
   const [form, setForm] = useState({ name: "", email: "", phone: "", projectType: "", requirements: "" });
+  const [focused, setFocused] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,79 +50,157 @@ const ContactModal = ({ open, onOpenChange }: ContactModalProps) => {
     onOpenChange(false);
   };
 
+  const inputClass = (field: string) =>
+    `w-full pl-11 pr-4 py-3.5 rounded-xl bg-secondary/80 border text-foreground placeholder:text-muted-foreground focus:outline-none transition-all duration-300 ${
+      focused === field
+        ? "border-primary/60 ring-2 ring-primary/20 bg-secondary"
+        : "border-border hover:border-primary/30"
+    }`;
+
   return (
     <AnimatePresence>
       {open && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm overflow-y-auto"
-          style={{ position: 'fixed' }}
+          variants={backdropVariants}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 overflow-y-auto"
           onClick={() => onOpenChange(false)}
         >
+          {/* Animated background */}
+          <div className="absolute inset-0 bg-background/70 backdrop-blur-md" />
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
+            <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-accent/20 rounded-full blur-[80px] animate-pulse" style={{ animationDelay: '1s' }} />
+          </div>
+
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            variants={modalVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg rounded-2xl bg-card border border-border p-6 shadow-card my-auto"
+            className="relative w-full max-w-lg rounded-2xl bg-card/95 backdrop-blur-sm border border-border/80 p-8 shadow-2xl my-auto overflow-hidden"
           >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-heading font-bold text-gradient-primary">Get In Touch</h2>
-              <button onClick={() => onOpenChange(false)} className="text-muted-foreground hover:text-foreground">
-                <X className="w-5 h-5" />
-              </button>
+            {/* Glow accent */}
+            <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/10 rounded-full blur-[60px]" />
+            <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-accent/10 rounded-full blur-[60px]" />
+
+            {/* Header */}
+            <div className="relative flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                >
+                  <Sparkles className="w-6 h-6 text-primary" />
+                </motion.div>
+                <div>
+                  <h2 className="text-2xl font-heading font-bold text-gradient-primary">Let's Create Together</h2>
+                  <p className="text-sm text-muted-foreground mt-0.5">Tell us about your project</p>
+                </div>
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => onOpenChange(false)}
+                className="w-9 h-9 rounded-full bg-secondary border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </motion.button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input
-                type="text"
-                placeholder="Your Name"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              />
-              <input
-                type="email"
-                placeholder="Email Address"
-                required
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              />
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              />
-              <select
-                required
-                value={form.projectType}
-                onChange={(e) => setForm({ ...form, projectType: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
-              >
-                <option value="">Select Project Type</option>
-                {projectTypes.map((t) => (
-                  <option key={t} value={t}>{t}</option>
-                ))}
-              </select>
-              <textarea
-                placeholder="Project Requirements"
-                required
-                rows={4}
-                value={form.requirements}
-                onChange={(e) => setForm({ ...form, requirements: e.target.value })}
-                className="w-full px-4 py-3 rounded-lg bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
-              />
+            <form onSubmit={handleSubmit} className="relative space-y-4">
+              {/* Name */}
+              <motion.div custom={0} variants={fieldVariants} initial="hidden" animate="visible" className="relative">
+                <User className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${focused === 'name' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  required
+                  value={form.name}
+                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  onFocus={() => setFocused('name')}
+                  onBlur={() => setFocused(null)}
+                  className={inputClass('name')}
+                />
+              </motion.div>
+
+              {/* Email */}
+              <motion.div custom={1} variants={fieldVariants} initial="hidden" animate="visible" className="relative">
+                <Mail className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${focused === 'email' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  onFocus={() => setFocused('email')}
+                  onBlur={() => setFocused(null)}
+                  className={inputClass('email')}
+                />
+              </motion.div>
+
+              {/* Phone */}
+              <motion.div custom={2} variants={fieldVariants} initial="hidden" animate="visible" className="relative">
+                <Phone className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${focused === 'phone' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  onFocus={() => setFocused('phone')}
+                  onBlur={() => setFocused(null)}
+                  className={inputClass('phone')}
+                />
+              </motion.div>
+
+              {/* Project Type */}
+              <motion.div custom={3} variants={fieldVariants} initial="hidden" animate="visible" className="relative">
+                <FileText className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 transition-colors duration-300 ${focused === 'type' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <select
+                  required
+                  value={form.projectType}
+                  onChange={(e) => setForm({ ...form, projectType: e.target.value })}
+                  onFocus={() => setFocused('type')}
+                  onBlur={() => setFocused(null)}
+                  className={inputClass('type')}
+                  style={{ paddingLeft: '2.75rem' }}
+                >
+                  <option value="">Select Project Type</option>
+                  {projectTypes.map((t) => (
+                    <option key={t} value={t}>{t}</option>
+                  ))}
+                </select>
+              </motion.div>
+
+              {/* Requirements */}
+              <motion.div custom={4} variants={fieldVariants} initial="hidden" animate="visible" className="relative">
+                <MessageSquare className={`absolute left-3.5 top-4 w-4 h-4 transition-colors duration-300 ${focused === 'req' ? 'text-primary' : 'text-muted-foreground'}`} />
+                <textarea
+                  placeholder="Project Requirements"
+                  required
+                  rows={4}
+                  value={form.requirements}
+                  onChange={(e) => setForm({ ...form, requirements: e.target.value })}
+                  onFocus={() => setFocused('req')}
+                  onBlur={() => setFocused(null)}
+                  className={`${inputClass('req')} resize-none`}
+                  style={{ paddingLeft: '2.75rem' }}
+                />
+              </motion.div>
+
+              {/* Submit */}
               <motion.button
-                whileHover={{ scale: 1.02 }}
+                custom={5}
+                variants={fieldVariants}
+                initial="hidden"
+                animate="visible"
+                whileHover={{ scale: 1.02, boxShadow: "0 0 40px hsl(38 92% 55% / 0.3)" }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
-                className="w-full py-3 rounded-lg bg-gradient-primary text-primary-foreground font-semibold flex items-center justify-center gap-2 shadow-glow"
+                className="w-full py-4 rounded-xl bg-gradient-primary text-primary-foreground font-semibold flex items-center justify-center gap-2 shadow-glow text-base mt-2"
               >
                 <Send className="w-4 h-4" />
                 Send Message
