@@ -33,7 +33,7 @@ const ParticleBackground = () => {
     };
     canvas.addEventListener("mousemove", handleMouseMove);
 
-    const count = 60;
+    const count = 45;
     const w = canvas.offsetWidth;
     const h = canvas.offsetHeight;
 
