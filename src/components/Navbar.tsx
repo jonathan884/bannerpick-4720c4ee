@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { LayoutTemplate, Menu, X } from "lucide-react";
+import { LayoutTemplate, Menu, X, ArrowRight } from "lucide-react";
 import ContactModal from "./ContactModal";
 
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Featured", href: "#featured" },
-  { label: "Categories", href: "#categories" },
+  { label: "Portfolio", href: "#categories" },
   { label: "About", href: "#about" },
   { label: "Blog", href: "/blog", isRoute: true },
 ];
@@ -30,7 +30,7 @@ const Navbar = () => {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100 }}
-        className="fixed top-0 left-0 right-0 z-50 glass"
+        className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -39,9 +39,9 @@ const Navbar = () => {
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               >
-                <LayoutTemplate className="w-8 h-8 text-primary" />
+                <LayoutTemplate className="w-7 h-7 text-primary" />
               </motion.div>
-              <span className="text-xl font-heading font-bold text-gradient-primary">
+              <span className="text-lg font-heading font-bold text-gradient-primary">
                 BannerPick
               </span>
             </Link>
@@ -53,7 +53,7 @@ const Navbar = () => {
                   <Link
                     key={link.label}
                     to={link.href}
-                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -62,19 +62,29 @@ const Navbar = () => {
                     key={link.label}
                     href={link.href}
                     onClick={() => handleNavClick(link.href)}
-                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </a>
                 )
               )}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+            </div>
+
+            <div className="hidden md:flex items-center gap-3">
+              <button
                 onClick={() => setContactOpen(true)}
-                className="px-5 py-2 rounded-lg bg-gradient-primary text-primary-foreground font-semibold text-sm shadow-glow"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-4 py-2"
               >
                 Contact
+              </button>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setContactOpen(true)}
+                className="group inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-gradient-primary text-primary-foreground font-semibold text-sm"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </motion.button>
             </div>
 
@@ -95,7 +105,7 @@ const Navbar = () => {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden glass border-t border-border"
+              className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border/50"
             >
               <div className="px-4 py-4 flex flex-col gap-3">
                 {navLinks.map((link) =>
@@ -104,7 +114,7 @@ const Navbar = () => {
                       key={link.label}
                       to={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2"
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
                     >
                       {link.label}
                     </Link>
@@ -113,7 +123,7 @@ const Navbar = () => {
                       key={link.label}
                       href={link.href}
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors py-2"
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
                     >
                       {link.label}
                     </a>
@@ -124,9 +134,9 @@ const Navbar = () => {
                     setMobileOpen(false);
                     setContactOpen(true);
                   }}
-                  className="px-5 py-2 rounded-lg bg-gradient-primary text-primary-foreground font-semibold text-sm mt-2"
+                  className="px-5 py-2.5 rounded-xl bg-gradient-primary text-primary-foreground font-semibold text-sm mt-2"
                 >
-                  Contact
+                  Get Started
                 </button>
               </div>
             </motion.div>

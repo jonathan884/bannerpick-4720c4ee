@@ -10,21 +10,24 @@ const BannerGallery = () => {
   const filtered = activeCategory === "All" ? banners : banners.filter((b) => b.category === activeCategory);
 
   return (
-    <section id="categories" className="py-24 px-4 bg-card/30">
+    <section id="categories" className="py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/20 bg-primary/5 text-primary text-sm font-medium mb-4">
             <Grid3x3 className="w-4 h-4" />
-            All Categories
+            Portfolio
           </span>
           <h2 className="text-4xl md:text-5xl font-heading font-bold mt-4 mb-4">
-            Browse Our <span className="text-gradient-primary">Collection</span>
+            Browse our <span className="text-gradient-primary">collection</span>
           </h2>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            Explore our diverse range of professional banner designs
+          </p>
         </motion.div>
 
         {/* Category filters */}
@@ -35,10 +38,10 @@ const BannerGallery = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+              className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
                 activeCategory === cat
                   ? "bg-gradient-primary text-primary-foreground shadow-glow"
-                  : "bg-secondary text-muted-foreground hover:text-foreground border border-border"
+                  : "bg-card text-muted-foreground hover:text-foreground border border-border"
               }`}
             >
               {cat}
@@ -71,7 +74,7 @@ const BannerGallery = () => {
                     <Eye className="w-8 h-8 text-primary" />
                   </div>
                 </div>
-                <div className="p-4">
+                <div className="p-5">
                   <span className="text-xs font-medium text-primary uppercase tracking-wider">{banner.category}</span>
                   <h3 className="text-lg font-heading font-semibold mt-1">{banner.title}</h3>
                   <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{banner.description}</p>
