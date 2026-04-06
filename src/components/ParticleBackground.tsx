@@ -38,7 +38,7 @@ const ParticleBackground = () => {
     const h = canvas.offsetHeight;
 
     for (let i = 0; i < count; i++) {
-      const baseOpacity = Math.random() * 0.4 + 0.1;
+      const baseOpacity = Math.random() * 0.25 + 0.05;
       particles.push({
         x: Math.random() * w,
         y: Math.random() * h,
