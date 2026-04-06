@@ -61,11 +61,11 @@ const ParticleBackground = () => {
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 120) {
-          const force = (120 - dist) / 120;
-          p.vx += dx / dist * force * 0.015;
-          p.vy += dy / dist * force * 0.015;
-          p.opacity = Math.min(0.8, p.baseOpacity + force * 0.4);
+        if (dist < 100) {
+          const force = (100 - dist) / 100;
+          p.vx += dx / dist * force * 0.008;
+          p.vy += dy / dist * force * 0.008;
+          p.opacity = Math.min(0.5, p.baseOpacity + force * 0.2);
         } else {
           p.opacity += (p.baseOpacity - p.opacity) * 0.05;
         }
