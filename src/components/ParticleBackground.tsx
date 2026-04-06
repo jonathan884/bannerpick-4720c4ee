@@ -42,9 +42,9 @@ const ParticleBackground = () => {
       particles.push({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
-        size: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        size: Math.random() * 1 + 0.2,
         opacity: baseOpacity,
         baseOpacity,
         pulse: Math.random() * Math.PI * 2,
