@@ -18,25 +18,25 @@ const milestones = [
 const AboutSection = () => {
   return (
     <section id="about" className="py-24 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-heading font-bold mb-4">
-            Who <span className="text-gradient-primary">We Are</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold mb-6">
+            Who <span className="text-gradient-primary">we are</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             We're a passionate team of designers and marketers dedicated to creating
             banners that don't just look great — they perform.
           </p>
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24 p-8 rounded-2xl bg-card border border-border">
           <AnimatedCounter end={500} suffix="+" label="Happy Clients" icon={<Users className="w-6 h-6" />} />
           <AnimatedCounter end={2500} suffix="+" label="Banners Created" icon={<Palette className="w-6 h-6" />} />
           <AnimatedCounter end={15} suffix="" label="Awards Won" icon={<Award className="w-6 h-6" />} />
@@ -44,7 +44,7 @@ const AboutSection = () => {
         </div>
 
         {/* Core Values */}
-        <div className="grid md:grid-cols-3 gap-6 mb-20">
+        <div className="grid md:grid-cols-3 gap-6 mb-24">
           {values.map((v, i) => (
             <motion.div
               key={v.title}
@@ -53,16 +53,16 @@ const AboutSection = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -5 }}
-              className="p-6 rounded-2xl bg-card border border-border shadow-card text-center"
+              className="p-8 rounded-2xl bg-card border border-border shadow-card text-center"
             >
               <motion.div
                 whileHover={{ scale: 1.1, rotate: 10 }}
-                className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 text-primary mb-4"
+                className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 text-primary mb-5"
               >
                 {v.icon}
               </motion.div>
-              <h3 className="text-xl font-heading font-semibold mb-2">{v.title}</h3>
-              <p className="text-muted-foreground text-sm">{v.desc}</p>
+              <h3 className="text-xl font-heading font-semibold mb-3">{v.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{v.desc}</p>
             </motion.div>
           ))}
         </div>
@@ -72,10 +72,10 @@ const AboutSection = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="text-center mb-12"
         >
-          <h3 className="text-3xl font-heading font-bold mb-2">
-            Our <span className="text-gradient-primary">Journey</span>
+          <h3 className="text-3xl md:text-4xl font-heading font-bold mb-2">
+            Our <span className="text-gradient-primary">journey</span>
           </h3>
         </motion.div>
         <div className="relative max-w-3xl mx-auto">
@@ -87,12 +87,12 @@ const AboutSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.15 }}
-              className={`relative flex items-center mb-10 ${i % 2 === 0 ? "justify-start" : "justify-end"}`}
+              className={`relative flex items-center mb-12 ${i % 2 === 0 ? "justify-start" : "justify-end"}`}
             >
-              <div className={`w-5/12 p-5 rounded-2xl bg-card border border-border shadow-card ${i % 2 === 0 ? "text-right mr-auto" : "text-left ml-auto"}`}>
+              <div className={`w-5/12 p-6 rounded-2xl bg-card border border-border shadow-card ${i % 2 === 0 ? "text-right mr-auto" : "text-left ml-auto"}`}>
                 <span className="text-primary font-bold font-heading text-lg">{m.year}</span>
                 <h4 className="font-heading font-semibold mt-1">{m.title}</h4>
-                <p className="text-sm text-muted-foreground mt-1">{m.desc}</p>
+                <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{m.desc}</p>
               </div>
               <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-gradient-primary border-4 border-background" />
             </motion.div>
