@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { Code2, Image, Film, Zap, Monitor, Smartphone, BarChart3, Palette, Globe, MousePointerClick, Layers, RefreshCw } from "lucide-react";
+import serviceHtml5 from "@/assets/service-html5.jpg";
+import serviceStatic from "@/assets/service-static.jpg";
+import serviceAnimated from "@/assets/service-animated.jpg";
 
 const services = [
   {
@@ -16,8 +19,12 @@ const services = [
       { icon: MousePointerClick, text: "Interactive elements & rich media support" },
     ],
     keywords: ["HTML5 banner design", "display ad production", "Google Ads banners", "rich media ads", "programmatic display advertising"],
-    gradient: "from-primary/10 to-primary/5",
-    accent: "primary",
+    image: serviceHtml5,
+    stats: [
+      { value: "150KB", label: "Max Size" },
+      { value: "60fps", label: "Smooth" },
+      { value: "100%", label: "Responsive" },
+    ],
   },
   {
     icon: Image,
@@ -33,8 +40,12 @@ const services = [
       { icon: BarChart3, text: "Conversion-focused visual hierarchy" },
     ],
     keywords: ["static banner design", "social media graphics", "web banner design", "display ad creative", "email header design"],
-    gradient: "from-accent/10 to-accent/5",
-    accent: "accent",
+    image: serviceStatic,
+    stats: [
+      { value: "40+", label: "Sizes" },
+      { value: "4K", label: "Resolution" },
+      { value: "24hr", label: "Delivery" },
+    ],
   },
   {
     icon: Film,
@@ -50,8 +61,12 @@ const services = [
       { icon: Globe, text: "Universal format — works everywhere" },
     ],
     keywords: ["animated GIF banner", "motion banner design", "email animation", "animated display ads", "GIF ad production"],
-    gradient: "from-primary/10 to-accent/5",
-    accent: "primary",
+    image: serviceAnimated,
+    stats: [
+      { value: "3x", label: "Engagement" },
+      { value: "30fps", label: "Smooth" },
+      { value: "∞", label: "Loop" },
+    ],
   },
 ];
 
@@ -106,10 +121,10 @@ const BannerServices = () => {
               {/* Content */}
               <div className="flex-1 space-y-6">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${service.gradient} border border-${service.accent}/20 flex items-center justify-center`}>
-                    <service.icon className={`w-6 h-6 text-${service.accent}`} />
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                    <service.icon className="w-6 h-6 text-primary" />
                   </div>
-                  <span className={`text-xs font-bold uppercase tracking-[0.2em] text-${service.accent}`}>
+                  <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
                     {service.tag}
                   </span>
                 </div>
@@ -117,7 +132,7 @@ const BannerServices = () => {
                 <h3 className="text-3xl md:text-4xl font-heading font-bold leading-tight">
                   {service.title}
                 </h3>
-                <p className={`text-${service.accent}/80 font-medium text-lg`}>
+                <p className="text-primary/80 font-medium text-lg">
                   {service.subtitle}
                 </p>
                 <p className="text-muted-foreground leading-relaxed text-base">
@@ -128,7 +143,7 @@ const BannerServices = () => {
                 <div className="grid sm:grid-cols-2 gap-4 pt-2">
                   {service.features.map((f) => (
                     <div key={f.text} className="flex items-start gap-3 p-3 rounded-xl bg-card/50 border border-border/50">
-                      <f.icon className={`w-5 h-5 text-${service.accent} shrink-0 mt-0.5`} />
+                      <f.icon className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                       <span className="text-sm text-foreground/80">{f.text}</span>
                     </div>
                   ))}
@@ -144,47 +159,35 @@ const BannerServices = () => {
                 </div>
               </div>
 
-              {/* Visual card */}
+              {/* Visual card with image */}
               <div className="flex-1 w-full">
                 <motion.div
                   whileHover={{ scale: 1.02 }}
-                  className={`relative rounded-2xl bg-gradient-to-br ${service.gradient} border border-border/50 p-8 md:p-12 aspect-[4/3] flex flex-col items-center justify-center text-center overflow-hidden`}
+                  className="relative rounded-2xl border border-border/50 overflow-hidden"
                 >
-                  {/* Background pattern */}
-                  <div className="absolute inset-0 opacity-[0.03]" style={{
-                    backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
-                    backgroundSize: '24px 24px'
-                  }} />
-                  
-                  <service.icon className={`w-16 h-16 text-${service.accent}/60 mb-6`} />
-                  <h4 className="text-2xl font-heading font-bold mb-2">{service.title}</h4>
-                  <p className="text-muted-foreground text-sm max-w-xs">
-                    {service.subtitle}
-                  </p>
-                  
-                  {/* Stats */}
-                  <div className="flex gap-8 mt-8">
-                    {index === 0 && (
-                      <>
-                        <div><span className="text-2xl font-bold text-primary">150KB</span><p className="text-xs text-muted-foreground">Max Size</p></div>
-                        <div><span className="text-2xl font-bold text-primary">60fps</span><p className="text-xs text-muted-foreground">Smooth</p></div>
-                        <div><span className="text-2xl font-bold text-primary">100%</span><p className="text-xs text-muted-foreground">Responsive</p></div>
-                      </>
-                    )}
-                    {index === 1 && (
-                      <>
-                        <div><span className="text-2xl font-bold text-accent">40+</span><p className="text-xs text-muted-foreground">Sizes</p></div>
-                        <div><span className="text-2xl font-bold text-accent">4K</span><p className="text-xs text-muted-foreground">Resolution</p></div>
-                        <div><span className="text-2xl font-bold text-accent">24hr</span><p className="text-xs text-muted-foreground">Delivery</p></div>
-                      </>
-                    )}
-                    {index === 2 && (
-                      <>
-                        <div><span className="text-2xl font-bold text-primary">3x</span><p className="text-xs text-muted-foreground">Engagement</p></div>
-                        <div><span className="text-2xl font-bold text-primary">30fps</span><p className="text-xs text-muted-foreground">Smooth</p></div>
-                        <div><span className="text-2xl font-bold text-primary">∞</span><p className="text-xs text-muted-foreground">Loop</p></div>
-                      </>
-                    )}
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    loading="lazy"
+                    width={800}
+                    height={600}
+                    className="w-full aspect-[4/3] object-cover"
+                  />
+                  {/* Overlay with stats */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent flex flex-col justify-end p-8">
+                    <div className="flex items-center gap-3 mb-4">
+                      <service.icon className="w-8 h-8 text-primary" />
+                      <h4 className="text-xl font-heading font-bold">{service.title}</h4>
+                    </div>
+                    <p className="text-muted-foreground text-sm mb-6">{service.subtitle}</p>
+                    <div className="flex gap-8">
+                      {service.stats.map((stat) => (
+                        <div key={stat.label}>
+                          <span className="text-2xl font-bold text-primary">{stat.value}</span>
+                          <p className="text-xs text-muted-foreground">{stat.label}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </motion.div>
               </div>
