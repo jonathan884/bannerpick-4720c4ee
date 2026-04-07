@@ -4,6 +4,16 @@ import banner3 from "@/assets/banner-3.jpg";
 import banner4 from "@/assets/banner-4.jpg";
 import banner5 from "@/assets/banner-5.jpg";
 import banner6 from "@/assets/banner-6.jpg";
+import blogBannerDesign from "@/assets/blog-banner-design.jpg";
+import blogHtml5 from "@/assets/blog-html5.jpg";
+import blogComparison from "@/assets/blog-comparison.jpg";
+import blogCtr from "@/assets/blog-ctr.jpg";
+import blogMistakes from "@/assets/blog-mistakes.jpg";
+import blogSocial from "@/assets/blog-social.jpg";
+import blogGif from "@/assets/blog-gif.jpg";
+import blogColors from "@/assets/blog-colors.jpg";
+import blogTypography from "@/assets/blog-typography.jpg";
+import blogSizes from "@/assets/blog-sizes.jpg";
 
 export interface Banner {
   id: number;
@@ -46,7 +56,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-12-23",
     readTime: "8 min read",
-    image: banner1,
+    image: blogBannerDesign,
   },
   {
     id: "banner-design-best-practices",
@@ -57,7 +67,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-12-20",
     readTime: "9 min read",
-    image: banner2,
+    image: blogSocial,
   },
   {
     id: "static-vs-animated-vs-html5",
@@ -68,7 +78,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-12-15",
     readTime: "10 min read",
-    image: banner3,
+    image: blogComparison,
   },
   {
     id: "html5-banner-ads-guide",
@@ -79,7 +89,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-12-10",
     readTime: "12 min read",
-    image: banner4,
+    image: blogHtml5,
   },
   {
     id: "banner-design-mistakes",
@@ -90,7 +100,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-12-05",
     readTime: "9 min read",
-    image: banner5,
+    image: blogMistakes,
   },
   {
     id: "banner-ctr-conversions",
@@ -101,7 +111,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-11-30",
     readTime: "8 min read",
-    image: banner6,
+    image: blogCtr,
   },
   {
     id: "color-psychology-banner-design",
@@ -112,7 +122,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-11-25",
     readTime: "7 min read",
-    image: banner1,
+    image: blogColors,
   },
   {
     id: "typography-rules-banner-ads",
@@ -123,7 +133,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-11-20",
     readTime: "6 min read",
-    image: banner2,
+    image: blogTypography,
   },
   {
     id: "static-banner-design",
@@ -134,7 +144,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-11-15",
     readTime: "5 min read",
-    image: banner3,
+    image: blogBannerDesign,
   },
   {
     id: "animated-gif-banners",
@@ -145,7 +155,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-11-10",
     readTime: "5 min read",
-    image: banner5,
+    image: blogGif,
   },
   {
     id: "html5-banners-why-brands-prefer",
@@ -156,7 +166,7 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-11-05",
     readTime: "4 min read",
-    image: banner6,
+    image: blogHtml5,
   },
   {
     id: "banner-size-guide",
@@ -167,6 +177,6 @@ export const blogPosts: BlogPost[] = [
     author: "BannerPick Team",
     date: "2024-10-30",
     readTime: "6 min read",
-    image: banner4,
+    image: blogSizes,
   },
 ];

@@ -81,7 +81,7 @@ const ParticleBackground = () => {
         if (p.y < 0 || p.y > ch) p.vy *= -1;
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, pulseSize, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, Math.max(0.1, pulseSize), 0, Math.PI * 2);
         ctx.fillStyle = `hsla(38, 92%, 55%, ${p.opacity * 0.7})`;
         ctx.fill();
       });
