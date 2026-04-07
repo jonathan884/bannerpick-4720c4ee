@@ -9,10 +9,10 @@ const values = [
 ];
 
 const milestones = [
-  { year: "2019", title: "Founded", desc: "BannerPick was born with a vision to revolutionize banner design" },
-  { year: "2020", title: "First 100 Clients", desc: "Reached our first milestone of serving 100 businesses" },
-  { year: "2022", title: "Global Expansion", desc: "Expanded services to over 30 countries worldwide" },
-  { year: "2024", title: "Award Winning", desc: "Recognized as a top design agency in digital marketing" },
+  { year: "2014", title: "Founded", desc: "BannerPick was born with a vision to revolutionize banner design" },
+  { year: "2016", title: "First 100 Clients", desc: "Reached our first milestone of serving 100 businesses" },
+  { year: "2020", title: "Global Expansion", desc: "Expanded services to over 30 countries worldwide" },
+  { year: "2024", title: "Client Satisfaction", desc: "Achieved 98% client satisfaction rate across all projects" },
 ];
 
 const AboutSection = () => {

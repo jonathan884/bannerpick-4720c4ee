@@ -16,7 +16,7 @@ const Footer = () => {
               <span className="text-xl font-heading font-bold text-gradient-primary">BannerPick</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Creating stunning, high-converting banner designs for businesses worldwide since 2019.
+              Creating stunning, high-converting banner designs for businesses worldwide since 2014.
             </p>
           </div>
 
@@ -76,10 +76,14 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-border pt-6 text-center">
+        <div className="border-t border-border pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} BannerPick. All rights reserved.
+            © 2014 BannerPick. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms & Conditions</Link>
+          </div>
         </div>
       </div>
     </footer>
