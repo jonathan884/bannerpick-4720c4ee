@@ -3,11 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutTemplate, Menu, X, ArrowRight } from "lucide-react";
 import ContactModal from "./ContactModal";
+import PortfolioModal from "./PortfolioModal";
 
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Featured", href: "#featured" },
-  { label: "Portfolio", href: "#categories" },
+  { label: "Portfolio", href: "#portfolio", isModal: true },
   { label: "About", href: "#about" },
   { label: "Blog", href: "/blog", isRoute: true },
 ];
@@ -15,6 +16,7 @@ const navLinks = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [portfolioOpen, setPortfolioOpen] = useState(false);
   const location = useLocation();
 
   const handleNavClick = (href: string, isRoute?: boolean) => {
