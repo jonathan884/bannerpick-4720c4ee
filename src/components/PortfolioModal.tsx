@@ -30,7 +30,7 @@ const modalVariants = {
     opacity: 1,
     scale: 1,
     y: 0,
-    transition: { type: "spring", damping: 25, stiffness: 300, delay: 0.1 },
+    transition: { type: "spring" as const, damping: 25, stiffness: 300, delay: 0.1 },
   },
   exit: { opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } },
 };
@@ -40,7 +40,7 @@ const fieldVariants = {
   visible: (i: number) => ({
     opacity: 1,
     x: 0,
-    transition: { delay: 0.2 + i * 0.08, duration: 0.4, ease: "easeOut" },
+    transition: { delay: 0.2 + i * 0.08, duration: 0.4, ease: "easeOut" as const },
   }),
 };
 
