@@ -59,6 +59,14 @@ const Navbar = () => {
                   >
                     {link.label}
                   </Link>
+                ) : (link as any).isModal ? (
+                  <button
+                    key={link.label}
+                    onClick={() => setPortfolioOpen(true)}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </button>
                 ) : (
                   <a
                     key={link.label}
