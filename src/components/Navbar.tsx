@@ -3,11 +3,12 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutTemplate, Menu, X, ArrowRight } from "lucide-react";
 import ContactModal from "./ContactModal";
+import PortfolioModal from "./PortfolioModal";
 
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Featured", href: "#featured" },
-  { label: "Portfolio", href: "#categories" },
+  { label: "Portfolio", href: "#portfolio", isModal: true },
   { label: "About", href: "#about" },
   { label: "Blog", href: "/blog", isRoute: true },
 ];
@@ -15,6 +16,7 @@ const navLinks = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [portfolioOpen, setPortfolioOpen] = useState(false);
   const location = useLocation();
 
   const handleNavClick = (href: string, isRoute?: boolean) => {
@@ -57,6 +59,14 @@ const Navbar = () => {
                   >
                     {link.label}
                   </Link>
+                ) : (link as any).isModal ? (
+                  <button
+                    key={link.label}
+                    onClick={() => setPortfolioOpen(true)}
+                    className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {link.label}
+                  </button>
                 ) : (
                   <a
                     key={link.label}
@@ -118,6 +128,17 @@ const Navbar = () => {
                     >
                       {link.label}
                     </Link>
+                  ) : (link as any).isModal ? (
+                    <button
+                      key={link.label}
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setPortfolioOpen(true);
+                      }}
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
+                    >
+                      {link.label}
+                    </button>
                   ) : (
                     <a
                       key={link.label}
@@ -145,6 +166,7 @@ const Navbar = () => {
       </motion.nav>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
+      <PortfolioModal open={portfolioOpen} onOpenChange={setPortfolioOpen} />
     </>
   );
 };
