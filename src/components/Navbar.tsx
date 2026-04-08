@@ -128,6 +128,17 @@ const Navbar = () => {
                     >
                       {link.label}
                     </Link>
+                  ) : (link as any).isModal ? (
+                    <button
+                      key={link.label}
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setPortfolioOpen(true);
+                      }}
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
+                    >
+                      {link.label}
+                    </button>
                   ) : (
                     <a
                       key={link.label}
@@ -155,6 +166,7 @@ const Navbar = () => {
       </motion.nav>
 
       <ContactModal open={contactOpen} onOpenChange={setContactOpen} />
+      <PortfolioModal open={portfolioOpen} onOpenChange={setPortfolioOpen} />
     </>
   );
 };
